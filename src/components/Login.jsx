@@ -13,6 +13,7 @@ function Login() {
     const [error, setError] = useState("")
 
     const login = async(data) => {
+        // console.log(data);
         setError("")
         try {
             const session = await authService.login(data)
@@ -54,6 +55,7 @@ function Login() {
                 placeholder="Enter your email"
                 type="email"
                 {...register("email", {
+                    // options
                     required: true,
                     validate: {
                         matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||

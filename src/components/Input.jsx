@@ -5,7 +5,7 @@ const Input = React.forwardRef( function Input({
     type = "text",
     className = "",
     ...props
-}, ref){
+}, ref){ // ref will be sent by the component who used it
     const id = useId()
     return (
         <div className='w-full'>
@@ -18,7 +18,7 @@ const Input = React.forwardRef( function Input({
             <input
             type={type}
             className={`px-3 py-2 rounded-lg bg-white text-black outline-none focus:bg-gray-50 duration-200 border border-gray-200 w-full ${className}`}
-            ref={ref}
+            ref={ref} // it will give the refference to the parent component
             {...props}
             id={id}
             />

@@ -9,6 +9,9 @@ function LogoutBtn() {
         authService.logout().then(() => {
             dispatch(logout())
         })
+        .finally(()=>{
+          window.location.reload();
+        })
     }
   return (
     <button

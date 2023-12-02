@@ -1,7 +1,7 @@
 import conf from '../conf/conf.js';
 import { Client, ID, Databases, Storage, Query } from "appwrite";
 
-export class Service{
+class Service{
     client = new Client();
     databases;
     bucket;
@@ -17,10 +17,13 @@ export class Service{
     // create post
     async createPost({title, slug, content, featuredImage, status, userId}){
         try {
+            // console.log(userId);
+            // console.log(featuredImage);
+            
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
-                slug,
+                slug, //document id
                 {
                     title,
                     content,
