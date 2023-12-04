@@ -11,8 +11,10 @@ function Signup() {
     const [error, setError] = useState("")
     const dispatch = useDispatch()
     const {register, handleSubmit} = useForm()
+    const [loading, setLoading]=useState(false)
 
     const create = async(data) => {
+        setLoading(true)
         setError("")
         try {
             const userData = await authService.createAccount(data)
@@ -24,13 +26,14 @@ function Signup() {
         } catch (error) {
             setError(error.message)
         }
+        setLoading(false)
     }
 
   return (
     <div className="flex items-center justify-center">
-            <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}>
+            <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`} style={{marginTop:"70px"}}>
             <div className="mb-2 flex justify-center">
-                    <span className="inline-block w-full max-w-[100px]">
+                    <span className="inline-block w-full" style={{width:"50%", marginLeft:"100px"}}>
                         <Logo width="100%" />
                     </span>
                 </div>
@@ -75,7 +78,39 @@ function Signup() {
                             required: true,})}
                         />
                         <Button type="submit" className="w-full">
-                            Create Account
+                        {
+                                loading ? (
+                                    <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="40"
+                                    height="40"
+                                    viewBox="0 0 50 50"
+                                    style={{textAlign:"center", fontSize:"15px", marginLeft:"46%", width:"30px"}}
+                                    >
+                                    <circle
+                                        cx="25"
+                                        cy="25"
+                                        r="20"
+                                        fill="none"
+                                        stroke-width="5"
+                                        stroke="#ccc"
+                                        stroke-dasharray="31.41592653589793 31.41592653589793"
+                                    >
+                                        <animateTransform
+                                        attributeName="transform"
+                                        attributeType="XML"
+                                        type="rotate"
+                                        from="0 25 25"
+                                        to="360 25 25"
+                                        dur="1s"
+                                        repeatCount="indefinite"
+                                        />
+                                    </circle>
+                                    </svg>
+
+                                ) : "Create Account"
+                            }
+                            
                         </Button>
                     </div>
                 </form>

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback,useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Input, RTE, Select } from "../index";
 import appwriteService from "../../appwrite/config";
@@ -19,9 +19,11 @@ export default function PostForm({ post }) {
 
     const navigate = useNavigate();
     const userData = useSelector((state) => state.auth.userData);
+    const [loading, setLoading]=useState(false)
     // console.log("userData:=", userData);
 
     const submit = async (data) => {
+        setLoading(true)
         if (post) { // update post
             const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
             // if upload done
@@ -50,6 +52,7 @@ export default function PostForm({ post }) {
                 }
             }
         }
+        setLoading(false)
     };
 
     const slugTransform = useCallback((value) => {
@@ -74,7 +77,7 @@ export default function PostForm({ post }) {
     }, [watch, slugTransform, setValue]);
 
     return (
-        <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
+        <form onSubmit={handleSubmit(submit)} className="flex flex-wrap pt-14">
             <div className="w-2/3 px-2">
                 <Input
                     label="Title :"
@@ -117,7 +120,70 @@ export default function PostForm({ post }) {
                     {...register("status", { required: true })}
                 />
                 <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full">
-                    {post ? "Update" : "Submit"}
+                    {post ?
+                        loading ? (
+                        <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="40"
+                        height="40"
+                        viewBox="0 0 50 50"
+                        style={{textAlign:"center", fontSize:"15px", marginLeft:"46%", width:"30px"}}
+                        >
+                        <circle
+                            cx="25"
+                            cy="25"
+                            r="20"
+                            fill="none"
+                            stroke-width="5"
+                            stroke="#ccc"
+                            stroke-dasharray="31.41592653589793 31.41592653589793"
+                        >
+                            <animateTransform
+                            attributeName="transform"
+                            attributeType="XML"
+                            type="rotate"
+                            from="0 25 25"
+                            to="360 25 25"
+                            dur="1s"
+                            repeatCount="indefinite"
+                            />
+                        </circle>
+                        </svg>
+
+                    ) : "Update"
+
+                     : 
+                     loading ? (
+                        <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="40"
+                        height="40"
+                        viewBox="0 0 50 50"
+                        style={{textAlign:"center", fontSize:"15px", marginLeft:"46%", width:"30px"}}
+                        >
+                        <circle
+                            cx="25"
+                            cy="25"
+                            r="20"
+                            fill="none"
+                            stroke-width="5"
+                            stroke="#ccc"
+                            stroke-dasharray="31.41592653589793 31.41592653589793"
+                        >
+                            <animateTransform
+                            attributeName="transform"
+                            attributeType="XML"
+                            type="rotate"
+                            from="0 25 25"
+                            to="360 25 25"
+                            dur="1s"
+                            repeatCount="indefinite"
+                            />
+                        </circle>
+                        </svg>
+
+                    ) : "Submit" 
+                     }
                 </Button>
             </div>
         </form>

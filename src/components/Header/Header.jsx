@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Container, Logo, LogoutBtn} from '../index'
 import { Link } from 'react-router-dom'
 import {useSelector} from 'react-redux'
@@ -8,7 +8,11 @@ function Header() {
   // check authenticated or not
   const authStatus = useSelector((state) => state.auth.status)
   const navigate = useNavigate()
-
+  const [loading, setLoading]=useState(false) 
+  function handelLoad(){
+    setLoading(true)
+  }
+  
   const navItems = [
     {
       name: 'Home',
@@ -36,10 +40,11 @@ function Header() {
       active: authStatus,
   },
   ]
-
+  if(loading)
+  return <span style={{position:"absolute", top:"50%", left:"50%", textAlign:"center", zIndex:"20"}} class="loader"></span>;
 
   return (
-    <header className='py-3 shadow bg-gray-500'>
+    <header className='py-3 shadow w-full z-30 top-0 bg-blue-200' style={{overflow:"hidden", position:"fixed"}}>
       <Container>
         <nav className='flex'>
           <div className='mr-4'>
@@ -60,7 +65,7 @@ function Header() {
             ) : null
             )}
             {authStatus && (
-              <li>
+              <li onClick={handelLoad}>
                 <LogoutBtn />
               </li>
             )}
